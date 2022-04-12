@@ -10,10 +10,18 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
+        exclude: |
+          (?x)^(
+              ^src/
+          )
   - repo: https://github.com/PyCQA/pylint
     rev: v2.13.5
     hooks:
       - id: pylint
+        exclude: |
+          (?x)^(
+              ^src/
+          )
   - repo: https://github.com/hadolint/hadolint
     rev: v2.8.0
     hooks:
