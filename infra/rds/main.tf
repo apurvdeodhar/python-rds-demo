@@ -38,7 +38,7 @@ resource "aws_db_instance" "rds" {
   engine_version                      = local.engine_version
   instance_class                      = local.instance_class
   identifier                          = local.rds_name
-  iam_database_authentication_enabled = true
+  iam_database_authentication_enabled = false
   username                            = local.master_username
   db_name                             = local.db_name
   db_subnet_group_name                = aws_db_subnet_group.subnet_group.name
