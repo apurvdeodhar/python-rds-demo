@@ -49,4 +49,18 @@ resource "aws_db_instance" "rds" {
   allocated_storage                   = local.allocated_storage
   deletion_protection                 = false
   skip_final_snapshot                 = true
+  apply_immediately                   = true
+}
+
+# Create DB and DB user
+resource "null_resource" "post_db_job" {
+  depends_on = [aws_db_instance.rds] #wait for the db to be ready
+    provisioner "local-exec" {
+    interpreter = ["/bin/sh", "-c"]
+    working_dir = "./"
+    command     = <<-EOT
+        export PGPASSWORD='${random_password.rds_master_pass.result}'
+        psql --host=${aws_db_instance.rds.endpoint} --port=5432 --username=${local.master_username} --dbname=${local.db_name} < query.sql
+    EOT
+    }
 }
